@@ -1,7 +1,7 @@
 import React from 'react';
-import SD_Owner from './SD_Owner';
-import SD_Executive from './SD_Executive';
-import SD_News from './SD_News';
+import Tabowner from './Tabowner';
+import TabExecutive from './TabExecutive';
+import TaNews from './TabNews';
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -28,13 +28,13 @@ export default function StockDetail(){
       </Card>
       <Tabs defaultActiveKey="owner">
         <Tab eventKey="owner" title="소유권">
-          <SD_Owner />
+          <Tabowner />
         </Tab>
         <Tab eventKey="profile" title="회사임원">
-          <SD_Executive />
+          <TabExecutive/>
         </Tab>
         <Tab eventKey="news" title="회사뉴스">
-          <SD_News />
+          <TaNews />
         </Tab>
       </Tabs>
     </div>

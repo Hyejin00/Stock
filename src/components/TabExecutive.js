@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 
-export default function SD_Executive(){
+export default function TabExecutive(){
   const execu = {
     "executive": [
       {
@@ -27,8 +27,8 @@ export default function SD_Executive(){
   return(
     <div>
       {
-        execu.executive.map((per)=>(
-          <Card>
+        execu.executive.map((per,idx)=>(
+          <Card key={idx}>
             <Card.Body>
               <Card.Title>{per.name}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">

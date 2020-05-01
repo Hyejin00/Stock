@@ -1,7 +1,7 @@
 import React from 'react';
 import Media from 'react-bootstrap/Media';
 
-export default function SD_News(){
+export default function TabNews(){
   const news = [
     {
       "category": "company news",
@@ -30,21 +30,23 @@ export default function SD_News(){
     <div>
       {
         news.map((news)=>(
-        <Media>
-          <img
-            width={64}
-            height={64}
-            className="mr-3"
-            src={news.image}
-            alt={news.headline}
-          />
-          <Media.Body>
-            <h5>{news.headline/*말줄임표 달기 */}</h5>
-            <p>
-              {news.summary/*말줄임표 달기 */}
-            </p>
-          </Media.Body>
-        </Media>
+          <a href={news.url} key={news.id}>
+            <Media>
+              <img
+                width={75}
+                height={75}
+                className="mr-3"
+                src={news.image}
+                alt={news.headline}
+              />
+              <Media.Body>
+                <h5>{news.headline/*말줄임표 달기 */}</h5>
+                <p>
+                  {news.summary/*말줄임표 달기 */}
+                </p>
+              </Media.Body>
+            </Media>
+          </a>
         ))
       }
     </div>

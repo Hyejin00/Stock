@@ -2,7 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 
-export default function SD_Owner(){
+export default function Tabowner(){
   const data ={
     "ownership": [
       {
@@ -78,8 +78,8 @@ export default function SD_Owner(){
         </thead>
         <tbody>
           {
-            data.ownership.map((own)=>(
-              <tr>
+            data.ownership.map((own,idx)=>(
+              <tr key={idx}>
                 <td>{own.filingDate}</td>
                 <td>{own.name}</td>
                 <td>{own.share}</td>
@@ -104,8 +104,8 @@ export default function SD_Owner(){
         </thead>
         <tbody>
           {
-            fund.ownership.map((own)=>(
-              <tr>
+            fund.ownership.map((own,idx)=>(
+              <tr key={idx}>
                 <td>{own.filingDate}</td>
                 <td>{own.name}</td>
                 <td>{own.share}</td>
