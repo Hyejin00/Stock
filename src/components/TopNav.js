@@ -9,11 +9,11 @@ export default function TopNav(){
   
   return(
     <Navbar bg="dark" variant="dark" expand="lg">
-      <Navbar.Brand href="#">Stock</Navbar.Brand>
+      <Navbar.Brand>Stock</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#stock">Stock</Nav.Link>
+          <Nav.Link href="#">Home</Nav.Link>
           <Nav.Link href="#news">News</Nav.Link>
         </Nav>
         <Form inline>

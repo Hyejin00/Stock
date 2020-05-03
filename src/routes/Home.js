@@ -1,22 +1,60 @@
-import React from 'react';
-import Table from 'react-bootstrap/Table';
+import React, { useEffect, useState } from 'react';
+import ArticleTitle from '../components/ArticleTitle';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import {Link} from 'react-router-dom';
 
-function Home (){
+
+export default function Home (){
+
+  const data = [
+    {
+      market:'Nasdaq',
+      company: [
+        'abc',
+        'bcd',
+        'cdb'
+      ]
+    },
+    {
+      market:'Japan',
+      company: [
+        'abc',
+        'bcd',
+        'cdb'
+      ]
+    }
+  ]
+  const makeCard = (datas)=>(
+    datas.map((data)=>(
+      <Link to={{
+        pathname:`markets/${data.market}`
+      }}>
+        <Card className='m-3'>
+          <Card.Header>{data.market}</Card.Header>
+          <ListGroup variant="flush">
+            {makeCardList(data.company)}
+          </ListGroup>
+        </Card>
+      </Link>
+      
+    ))
+  )
+
+  const makeCardList = (companys)=>(
+    companys.map((company)=>(
+      <ListGroup.Item>{company}</ListGroup.Item>
+    ))
+  )
+
+ 
+  
   return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>통화단위</th>
-          <th>거래소명</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr key='code'>
-          <td>1</td>
-          <td>Mark</td>
-        </tr>
-      </tbody>
-    </Table>
+    <div>
+      <ArticleTitle title='Markets'/>
+      {
+        makeCard(data)
+      }
+    </div>
   );
 }
-export default Home;
