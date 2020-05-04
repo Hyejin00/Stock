@@ -39,8 +39,7 @@ export default function StockMarket(props){
             data.map((company)=>(
               <tr key={company.symbol}>
                 <td><Link to={{
-                  pathname:`markets/${props.match.params.exchange}`,
-                  search: `?symbol=${company.symbol}`
+                  pathname:`/companies/${company.description}`
                 } }>{company.description}</Link></td>
                 <td>{company.c}</td>
               </tr>

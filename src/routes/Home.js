@@ -48,8 +48,6 @@ export default function Home (){
       <ListGroup.Item key={company}>{company}</ListGroup.Item>
     ))
   )
-
- 
   
   return (
     <div>

@@ -12,8 +12,8 @@ function App() {
     <HashRouter>
       <TopNav />
       <Route path='/' exact={true} component={Home}/>
-      <Route path = '/markets/:exchange' exact={true} component={StockMarket}/>
-      <Route path = '/markets/:exchange/:symbol' component={StockQuote}/>
+      <Route path = '/markets/:exchange' component={StockMarket}/>
+      <Route path = '/companies/:company' component={StockQuote}/>
       <Route path = '/news' component={NewsList}/>
     </HashRouter>
   );
