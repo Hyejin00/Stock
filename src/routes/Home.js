@@ -1,12 +1,29 @@
-import React from 'react';
+import React, {useEffect}from 'react';
 import ArticleTitle from '../components/ArticleTitle';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import DomesticMarket from '../components/DomesticMarket';
 import {Link} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchExchange } from '../actions/index';
 
 
 export default function Home (){
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.loading);
+  const exchange = useSelector(state => state.exchange);
 
+  useEffect(()=>{
+    const initEx = ['KS','KQ','US','T','SS'];
+    dispatch({type:'START_LOADING'});
+    initEx.forEach((code)=>{
+      dispatch(fetchExchange(code));
+    });
+    dispatch({type:'END_LOADING'});
+  },[]);
+
+  console.log(exchange);
+  
   const data = [
     {
       code:'Nasdaq',
@@ -52,6 +69,7 @@ export default function Home (){
   return (
     <div>
       <ArticleTitle title='Markets'/>
+      <DomesticMarket />
       {
         makeCard(data)
       }
