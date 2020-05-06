@@ -7,9 +7,41 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import rootReducer from './reducers/index';
+import { fetchCompanyList } from './actions/index';
+import axios from 'axios';
 
+const API_URL = 'https://finnhub.io/api/v1/stock/symbol';
+const API_KEY = 'bqi7mrfrh5rcatj3upm0';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+
+const getCompanies = async(code)=>{
+  return await axios.get(API_URL,{
+    params:{
+      token:API_KEY,
+      exchange: code
+    }
+  });
+}
+const exchangeslist = [
+  {code: 'KS', name:'KOSPI'},
+  {code: 'KQ', name:'KOSDAQ'},
+  {code: 'US', name:'US'},
+  {code: 'T', name:'Japan'},
+  {code: 'SS', name:'China'}
+];
+const init_exchange = Promise.all(
+  exchangeslist.map(async (exchange)=>{
+    return {
+      code: exchange.code,
+      market: exchange.name,
+      companies: (await getCompanies(exchange.code)).data
+    }
+  })
+);
+console.log(init_exchange);
+
+store.dispatch(fetchCompanyList(init_exchange));
 
 
 ReactDOM.render(

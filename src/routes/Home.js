@@ -1,30 +1,23 @@
-import React, {useEffect}from 'react';
+import React from 'react';
 import ArticleTitle from '../components/ArticleTitle';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 import {Link} from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCompanyList } from '../actions/index';
+import { useSelector } from 'react-redux';
 import ErrorMessage from '../components/ErrorMessage';
 
 
 export default function Home (){
-  const dispatch = useDispatch();
   const loading = useSelector(state => state.loading);
   const exchanges = useSelector(state => state.exchanges);
   const error = useSelector(state => state.error);
 
-  useEffect(()=>{
-    dispatch({type:'START_LOADING'});
-    dispatch(fetchCompanyList());
-    console.log('zz');
+  exchanges.then((res)=>{
+    console.log(res);
     
-  },[]);
+  });
 
-  if(exchanges){
-    dispatch({type:'END_LOADING'});
-  }
   if(error){
     return <ErrorMessage />
   }
@@ -35,7 +28,7 @@ export default function Home (){
       </Spinner>
     )
   }
-  
+
   return (
     <div>
       <ArticleTitle title='Markets'/>
