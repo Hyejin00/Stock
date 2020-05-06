@@ -1,9 +1,9 @@
 import produce from 'immer';
 
 const initalState = {
-  exchange : [],
+  exchanges : null,
   error: null,
-  loading: false
+  loading: true
 }
 
 const reducer = produce((state, action)=>{
@@ -21,11 +21,8 @@ const reducer = produce((state, action)=>{
     case 'END_LOADING':
       state.loading = false;
       break;
-    case 'FETCH_EXCHANGE':
-      state.exchange.push({
-        code: action.payload.code,
-        companies: action.payload.companies
-      });
+    case 'FETCH_EXCHANGES':
+      state.exchanges= action.payload;
       break;
     default:
       break;

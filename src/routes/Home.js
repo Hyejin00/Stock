@@ -1,78 +1,61 @@
 import React, {useEffect}from 'react';
 import ArticleTitle from '../components/ArticleTitle';
 import Card from 'react-bootstrap/Card';
+import Spinner from 'react-bootstrap/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
-import DomesticMarket from '../components/DomesticMarket';
 import {Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchExchange } from '../actions/index';
+import { fetchCompanyList } from '../actions/index';
+import ErrorMessage from '../components/ErrorMessage';
 
 
 export default function Home (){
   const dispatch = useDispatch();
   const loading = useSelector(state => state.loading);
-  const exchange = useSelector(state => state.exchange);
+  const exchanges = useSelector(state => state.exchanges);
+  const error = useSelector(state => state.error);
 
   useEffect(()=>{
-    const initEx = ['KS','KQ','US','T','SS'];
     dispatch({type:'START_LOADING'});
-    initEx.forEach((code)=>{
-      dispatch(fetchExchange(code));
-    });
-    dispatch({type:'END_LOADING'});
+    dispatch(fetchCompanyList());
+    console.log('zz');
+    
   },[]);
 
-  console.log(exchange);
-  
-  const data = [
-    {
-      code:'Nasdaq',
-      market:'Nasdaq',
-      company: [
-        'abc',
-        'bcd',
-        'cdb'
-      ]
-    },
-    {
-      code:'Japan',
-      market:'Japan',
-      company: [
-        'abc',
-        'bcd',
-        'cdb'
-      ]
-    }
-  ]
-  const makeCard = (datas)=>(
-    datas.map((data)=>(
-      <Link to={{
-        pathname:`markets/${data.market}`
-      }} key={data.market}>
-        <Card className='m-3'>
-          <Card.Header>{data.market}</Card.Header>
-          <ListGroup variant="flush">
-            {makeCardList(data.company)}
-          </ListGroup>
-        </Card>
-      </Link>
-      
-    ))
-  )
-
-  const makeCardList = (companys)=>(
-    companys.map((company)=>(
-      <ListGroup.Item key={company}>{company}</ListGroup.Item>
-    ))
-  )
+  if(exchanges){
+    dispatch({type:'END_LOADING'});
+  }
+  if(error){
+    return <ErrorMessage />
+  }
+  if(loading){
+    return (
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
+    )
+  }
   
   return (
     <div>
       <ArticleTitle title='Markets'/>
-      <DomesticMarket />
       {
-        makeCard(data)
+        exchanges.map((exchange)=>(
+          <Link to={
+            {pathname:`markets/${exchange.code}`}
+            } key={exchange.code}>
+            <Card className='m-3'>
+              <Card.Header>{exchange.market}</Card.Header>
+              <ListGroup variant="flush">
+                <ListGroup.Item>{exchange.companies[0].description}</ListGroup.Item>
+                <ListGroup.Item>{exchange.companies[1].description}</ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Link>
+        ))
       }
     </div>
   );
+
+  
 }
