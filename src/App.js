@@ -7,18 +7,28 @@ import Home from './routes/Home';
 import StockMarket from './routes/StockMarket';
 import StockQuote from './routes/StockQuote';
 import Container from 'react-bootstrap/Container';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import {Provider} from 'react-redux';
+import rootReducer from './reducers/index';
+import { fetchCompanyList } from './actions/index';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+store.dispatch(fetchCompanyList());
 
 function App() {
   return (
-    <HashRouter>
-      <TopNav />
-      <Container fluid className = 'p-3'>
-        <Route path='/' exact={true} component={Home}/>
-        <Route path = '/markets/:exchange' component={StockMarket}/>
-        <Route path = '/companies/:company' component={StockQuote}/>
-        <Route path = '/news' component={NewsList}/>
-      </Container>
-    </HashRouter>
+    <Provider store={store}>
+      <HashRouter>
+        <TopNav />
+        <Container fluid className = 'p-3'>
+          <Route path = '/markets/:exchange' component={StockMarket}/>
+          <Route path='/' exact={true} component={Home}/>
+          <Route path = '/companies/:company' component={StockQuote}/>
+          <Route path = '/news' component={NewsList}/>
+        </Container>
+      </HashRouter>
+    </Provider>
   );
 }
 

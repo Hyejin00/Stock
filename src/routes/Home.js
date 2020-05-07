@@ -13,11 +13,6 @@ export default function Home (){
   const exchanges = useSelector(state => state.exchanges);
   const error = useSelector(state => state.error);
 
-  exchanges.then((res)=>{
-    console.log(res);
-    
-  });
-
   if(error){
     return <ErrorMessage />
   }
@@ -28,14 +23,17 @@ export default function Home (){
       </Spinner>
     )
   }
-
+  
   return (
     <div>
       <ArticleTitle title='Markets'/>
       {
-        exchanges.map((exchange)=>(
+        exchanges.map((exchange,idx)=>(
           <Link to={
-            {pathname:`markets/${exchange.code}`}
+            {
+              pathname:`markets/${idx}`,
+              state:{exchanges:exchanges}
+            }
             } key={exchange.code}>
             <Card className='m-3'>
               <Card.Header>{exchange.market}</Card.Header>

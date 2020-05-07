@@ -1,7 +1,9 @@
 import produce from 'immer';
 
 const initalState = {
-  exchanges: null
+  exchanges: [],
+  loading: false,
+  error:null
 }
 
 const reducer = produce((state, action)=>{

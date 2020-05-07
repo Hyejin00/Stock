@@ -1,53 +1,51 @@
 import React from 'react';
 import ArticleTitle from '../components/ArticleTitle';
-import Table from 'react-bootstrap/Table';
+import ArticleSubTitle from '../components/ArticleSubTitle';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { useSelector } from 'react-redux';
+import Spinner from 'react-bootstrap/Spinner';
 import {Link} from 'react-router-dom';
 
-export default function StockMarket(props){
-  //만약 selected 있으면 -> store
-  //없으면 -> 직접 패치
-  const data = [
-    {
-      "symbol": "A",
-      "description": "AGILENT TECHNOLOGIES INC",
-      "c": 261.74,
-    },
-    {
-      "symbol": "AA",
-      "description": "ALCOA CORP",
-      "c": 261.74,
-    },
-    {
-      "symbol": "AAAU",
-      "description": "PERTH MINT PHYSICAL GOLD ETF",
-      "c": 261.74,
-    }
-  ];
+export default function StockMarket({match}){
+
+  const loading = useSelector(state => state.loading);
+  const idx = match.params.exchange;
+  const exchanges = useSelector(state => state.exchanges[idx]);
+  const error = useSelector(state => state.error);
+  console.log(loading, exchanges);
   
+  
+  if(loading){
+    return (
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
+    )
+  }
   return (
     <div>
-      <ArticleTitle title={props.match.params.exchange}/>
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th>company</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            data.map((company)=>(
-              <tr key={company.symbol}>
-                <td><Link to={{
-                  pathname:`/companies/${company.description}`
-                } }>{company.description}</Link></td>
-                <td>{company.c}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </Table>
+      <ArticleTitle title={exchanges.market}/>
+      <ArticleSubTitle title='Company list'/>
+      <ListGroup>
+        {
+          exchanges.companies.map((company,idx)=>{
+            return (
+              <Link
+                to={{
+                  pathname:`/companies/${company.symbol}`
+                }}
+                key = {idx}
+              >
+                <ListGroup.Item>
+                  {company.description} ({company.displaySymbol})
+                </ListGroup.Item>
+              </Link>
+              )
+          })
+        }
+      </ListGroup>
     </div>
     //pagenation 생각하기
   );
+  
 }
