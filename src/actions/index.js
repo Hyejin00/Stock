@@ -3,6 +3,8 @@ import axios from 'axios';
 const API_URL = 'https://finnhub.io/api/v1/';
 const API_KEY = 'bqi7mrfrh5rcatj3upm0';
 
+//예외처리
+
 const getCompanies = async(code)=>{
   return await axios.get(API_URL+'stock/symbol',{
     params:{

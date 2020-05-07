@@ -14,7 +14,7 @@ export default function StockPrice({price}){
           <CurrentPrice price={price.c}/>
         </Col>
         <Col>
-          <PriceTable />
+          <PriceTable price={price}/>
         </Col>
       </Row>
     </Container>

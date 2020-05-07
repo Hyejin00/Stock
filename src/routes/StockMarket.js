@@ -7,7 +7,6 @@ import Spinner from 'react-bootstrap/Spinner';
 import {Link} from 'react-router-dom';
 
 export default function StockMarket({match}){
-
   const loading = useSelector(state => state.loading);
   const idx = match.params.exchange;
   const exchanges = useSelector(state => state.exchanges[idx]);
@@ -32,7 +31,7 @@ export default function StockMarket({match}){
             return (
               <Link
                 to={{
-                  pathname:`/companies/${company.symbol}`
+                  pathname:`/companies?symbol=${company.symbol}&desc=${company.description}`
                 }}
                 key = {idx}
               >

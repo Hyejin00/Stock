@@ -24,7 +24,7 @@ function App() {
         <Container fluid className = 'p-3'>
           <Route path = '/markets/:exchange' component={StockMarket}/>
           <Route path='/' exact={true} component={Home}/>
-          <Route path = '/companies/:company' component={StockQuote}/>
+          <Route path = '/companies' component={StockQuote}/>
           <Route path = '/news' component={NewsList}/>
         </Container>
       </HashRouter>
