@@ -10,9 +10,7 @@ export default function StockMarket({match}){
   const loading = useSelector(state => state.loading);
   const idx = match.params.exchange;
   const exchanges = useSelector(state => state.exchanges[idx]);
-  const error = useSelector(state => state.error);
-  console.log(loading, exchanges);
-  
+  // const error = useSelector(state => state.error);
   
   if(loading){
     return (

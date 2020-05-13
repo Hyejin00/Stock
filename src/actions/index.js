@@ -14,7 +14,56 @@ const getCompanies = async(code)=>{
   });
 }
 
-export function fetchCompanyList(){
+const getPrice = async(symbol)=>{
+  return await axios.get(API_URL+'quote',{
+    params:{
+      token:API_KEY,
+      symbol:symbol
+    }
+  })
+}
+const getCandle = async(symbol)=>{
+  return await axios.get(API_URL+'stock/candle',{
+    params:{
+      token:API_KEY,
+      resolution:'D'
+    }
+  })
+}
+const getCompanyNews = async(symbol)=>{
+  return await axios.get(API_URL+'company-news',{
+    params:{
+      token:API_KEY,
+      symbol:symbol,
+      from:'2019-01-01',
+      to:'2020-05-13'
+    }
+  })
+}
+const getGeneralNews = async()=>{
+  return await axios.get(API_URL+'news',{
+    params:{
+      token:API_KEY,
+      category:'general'
+    }
+  })
+}
+export function fetchCompanyInfo(symbol){
+  return (dispatch)=>{
+    dispatch({type:'START_LOADING'});
+    Promise.all(
+      [getPrice(symbol),getCompanyNews(symbol)]
+    ).then((res)=>{
+      console.log(res);
+      
+      dispatch({type:'FETCH_PRICE', payload:res[0].data});
+      dispatch({type:'FETCH_COMPANYNEWS', payload:res[1].data});
+      dispatch({type:'END_LOADING'});
+    })
+  }
+}
+
+export function fetchInitData(){
   return (dispatch)=>{
     dispatch({
       type:'START_LOADING'
@@ -35,15 +84,19 @@ export function fetchCompanyList(){
         }
       })
     ).then((res)=>{
-      console.log(res);
-      
       dispatch({
         type:'FETCH_EXCHANGES',
         payload: res
       });
-      dispatch({
-        type:'END_LOADING'
-      });
+      getGeneralNews().then(((res)=>{
+        dispatch({
+          type:'FETCH_GENNEWS',
+          payload:res.data
+        });
+        dispatch({
+          type:'END_LOADING'
+        });
+      }))
     });
   }
 }

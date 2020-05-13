@@ -2,8 +2,12 @@ import produce from 'immer';
 
 const initalState = {
   exchanges: [],
+  news:[],
   loading: false,
-  error:null
+  error:null,
+  selected_price:null,
+  selected_news:null,
+  selected_chart:null
 }
 
 const reducer = produce((state, action)=>{
@@ -23,6 +27,18 @@ const reducer = produce((state, action)=>{
       break;
     case 'FETCH_EXCHANGES':
       state.exchanges= action.payload;
+      break;
+    case 'FETCH_PRICE':
+      state.selected_price = action.payload;
+      break;
+    case 'FETCH_COMPANYNEWS':
+      state.selected_news = action.payload;
+      break;
+    case 'FETCH_GENNEWS':
+      state.news = action.payload;
+      break;
+    case 'FETCH_CHART':
+      state.selected_chart = action.payload;
       break;
     default:
       break;

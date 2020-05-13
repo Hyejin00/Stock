@@ -2,48 +2,27 @@ import React,{useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ArticleTitle from '../components/ArticleTitle';
 import StockPrice from '../components/StockPrice';
+import CandleChart from '../components/CandleChart';
+import CompanyNews from '../components/CompanyNews';
 import Spinner from 'react-bootstrap/Spinner';
-import axios from 'axios';
-
-const API_URL = 'https://finnhub.io/api/v1/';
-const API_KEY = 'bqi7mrfrh5rcatj3upm0';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import { fetchCompanyInfo } from '../actions';
 
 export default function StockQuote(props){
   const dispatch = useDispatch();
   const loading = useSelector(state => state.loading);
+  const chart = useSelector(state => state.selected_chart);
   const search = props.location.search;
   const params = new URLSearchParams(search);
   const symbol= params.get('symbol');
   const company= params.get('desc');
-  let [price, setPrice] = useState([]);
+  console.log(symbol);
   
   useEffect(()=>{
-    dispatch({
-      type:'START_LOADING'
-    });
-    axios.get(API_URL+'quote',{
-      params:{
-        token:API_KEY,
-        symbol:symbol
-      }
-    }).then(({data})=>{
-      setPrice(data);
-      dispatch({
-        type:'END_LOADING'
-      });
-    }).catch((err)=>{
-      dispatch({
-        type:'ERROR',
-        payload: {
-          code:err.response.status,
-          text:err.response.statusText
-        }
-      });
-      dispatch({
-        type:'END_LOADING'
-      });
-    })
+    dispatch(fetchCompanyInfo(symbol));
   },[]);
+
   if(loading){
     return (
       <Spinner animation="border" role="status">
@@ -55,7 +34,17 @@ export default function StockQuote(props){
   return(
     <div>
       <ArticleTitle title={company}/>
-      <StockPrice price={price}/>
+      <StockPrice/>
+      <Tabs defaultActiveKey="News" onSelect={(key)=>{
+        console.log(key);
+      }}>
+        <Tab eventKey="News" title="News">
+          <CompanyNews />
+        </Tab>
+        <Tab eventKey="Chart" title="Chart">
+          <CandleChart />
+        </Tab>
+      </Tabs>
     </div>
   );
 }

@@ -11,10 +11,10 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import rootReducer from './reducers/index';
-import { fetchCompanyList } from './actions/index';
+import { fetchInitData } from './actions/index';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
-store.dispatch(fetchCompanyList());
+store.dispatch(fetchInitData());
 
 function App() {
   return (
