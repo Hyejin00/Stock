@@ -12,7 +12,6 @@ import { fetchCompanyInfo } from '../actions';
 export default function StockQuote(props){
   const dispatch = useDispatch();
   const loading = useSelector(state => state.loading);
-  const chart = useSelector(state => state.selected_chart);
   const search = props.location.search;
   const params = new URLSearchParams(search);
   const symbol= params.get('symbol');
@@ -35,7 +34,7 @@ export default function StockQuote(props){
     <div>
       <ArticleTitle title={company}/>
       <StockPrice/>
-      <Tabs defaultActiveKey="News" onSelect={(key)=>{
+      <Tabs defaultActiveKey="Chart" onSelect={(key)=>{
         console.log(key);
       }}>
         <Tab eventKey="News" title="News">

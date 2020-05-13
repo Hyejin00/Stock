@@ -37,7 +37,7 @@ const reducer = produce((state, action)=>{
     case 'FETCH_GENNEWS':
       state.news = action.payload;
       break;
-    case 'FETCH_CHART':
+    case 'FETCH_CANDLE':
       state.selected_chart = action.payload;
       break;
     default:

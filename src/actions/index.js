@@ -22,14 +22,6 @@ const getPrice = async(symbol)=>{
     }
   })
 }
-const getCandle = async(symbol)=>{
-  return await axios.get(API_URL+'stock/candle',{
-    params:{
-      token:API_KEY,
-      resolution:'D'
-    }
-  })
-}
 const getCompanyNews = async(symbol)=>{
   return await axios.get(API_URL+'company-news',{
     params:{
@@ -48,16 +40,27 @@ const getGeneralNews = async()=>{
     }
   })
 }
+const getCandle = async(symbol)=>{
+  return await axios.get(API_URL+'stock/candle',{
+    params:{
+      token:API_KEY,
+      symbol:symbol,
+      resolution:'D',
+      from:'1572651390',
+      to:'1575243390'
+    }
+  })
+}
 export function fetchCompanyInfo(symbol){
   return (dispatch)=>{
     dispatch({type:'START_LOADING'});
     Promise.all(
-      [getPrice(symbol),getCompanyNews(symbol)]
+      [getPrice(symbol),getCompanyNews(symbol),getCandle(symbol)]
     ).then((res)=>{
       console.log(res);
-      
       dispatch({type:'FETCH_PRICE', payload:res[0].data});
       dispatch({type:'FETCH_COMPANYNEWS', payload:res[1].data});
+      dispatch({type:'FETCH_CANDLE', payload:res[2].data});
       dispatch({type:'END_LOADING'});
     })
   }
