@@ -13,16 +13,24 @@ function makeChartData(chart){
 
 export default function CandleChart (){
   const chart = useSelector(state => state.selected_chart);
+  if(!chart){
+    return <div>정보가 없습니다.</div>
+  }
   
-  return <Chart
-  width={'100%'}
-  height={500}
-  chartType="CandlestickChart"
-  loader={<div>Loading Chart</div>}
-  data={makeChartData(chart)}
-  options={{
-    legend: 'none',
-  }}
-  rootProps={{ 'data-testid': '1' }}
-/>;
+  if(chart.s ==='ok'){
+    return (
+      <Chart
+      width={'100%'}
+      height={500}
+      chartType="CandlestickChart"
+      loader={<div>Loading Chart</div>}
+      data={makeChartData(chart)}
+      options={{
+        legend: 'none',
+      }}
+      rootProps={{ 'data-testid': '1' }}
+      />);
+  }else{
+    return <div>정보가 없습니다.</div>
+  }
 }

@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ArticleTitle from '../components/ArticleTitle';
 import StockPrice from '../components/StockPrice';
@@ -16,7 +16,6 @@ export default function StockQuote(props){
   const params = new URLSearchParams(search);
   const symbol= params.get('symbol');
   const company= params.get('desc');
-  console.log(symbol);
   
   useEffect(()=>{
     dispatch(fetchCompanyInfo(symbol));
@@ -33,7 +32,7 @@ export default function StockQuote(props){
   return(
     <div>
       <ArticleTitle title={company}/>
-      <StockPrice/>
+      <StockPrice symbol={symbol}/>
       <Tabs defaultActiveKey="Chart" onSelect={(key)=>{
         console.log(key);
       }}>

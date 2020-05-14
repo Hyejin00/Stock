@@ -4,6 +4,7 @@ const initalState = {
   exchanges: [],
   news:[],
   loading: false,
+  streaming:false,
   error:null,
   selected_price:null,
   selected_news:null,
@@ -24,6 +25,12 @@ const reducer = produce((state, action)=>{
       break;
     case 'END_LOADING':
       state.loading = false;
+      break;
+    case 'START_STREAMING':
+      state.streaming = true;
+      break;
+    case 'END_STREAMING':
+      state.streaming = false;
       break;
     case 'FETCH_EXCHANGES':
       state.exchanges= action.payload;

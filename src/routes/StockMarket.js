@@ -25,13 +25,16 @@ export default function StockMarket({match}){
       <ArticleSubTitle title='Company list'/>
       <ListGroup>
         {
-          exchanges.companies.map((company,idx)=>{
+          exchanges.companies.map((company,index)=>{
+            if(company.description === 'N/A'){
+              return
+            }
             return (
               <Link
                 to={{
                   pathname:`/companies?symbol=${company.symbol}&desc=${company.description}`
                 }}
-                key = {idx}
+                key = {index}
               >
                 <ListGroup.Item>
                   {company.description} ({company.displaySymbol})

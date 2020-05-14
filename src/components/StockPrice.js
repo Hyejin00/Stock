@@ -7,17 +7,16 @@ import PriceTable from './PriceTable';
 import CurrentPrice from './CurrentPrice';
 
 
-export default function StockPrice(){
+export default function StockPrice({symbol}){
   const price = useSelector(state => state.selected_price);
   if(!price){
     return <div>데이터를 불러오지 못했습니다..</div>
   }
-  
   return (
     <Container>
       <Row>
         <Col className='border-right d-flex justify-content-center align-items-center'>
-          <CurrentPrice price={price.c}/>
+          <CurrentPrice price={price.c} symbol = {symbol}/>
         </Col>
         <Col>
           <PriceTable price={price}/>
