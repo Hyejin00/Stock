@@ -4,7 +4,7 @@ import { Chart } from "react-google-charts";
 //timestamp 이해하기 쉽게 바꿔주는거 찾기
 //툴팁 다루는 옵션 찾기
 function makeChartData(chart){
-  const data = [['label', 'minimum/low', 'opening/initial', 'closing/final','maximum']];
+  const data = [['label', 'low-high, open-close', 'opening/initial', 'closing/final','maximum']];
   for(let i = 0; i<chart.c.length; i++){
     data.push([chart.t[i],chart.l[i],chart.o[i],chart.c[i],chart.h[i]]);
   }

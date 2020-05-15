@@ -11,17 +11,21 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function StockMarket({match}){
   const loading = useSelector(state => state.loading);
   const idx = match.params.exchange;
   const exchanges = useSelector(state => state.exchanges[idx]);
   const [current_page, setCurrentPage] = useState(1);
-  const [offset, setOffset] = useState(10);
+  const [offset] = useState(10);
   const [term, setTerm] = useState(1);
   const startPage = (current_page-1)*offset;
-  // const error = useSelector(state => state.error);
+  const error = useSelector(state => state.error);
 
+  if(error){
+    return <ErrorMessage />
+  }
   if(loading){
     return (
       <Spinner animation="border" role="status">
@@ -77,7 +81,7 @@ export default function StockMarket({match}){
               <FormControl aria-label="currentpage" style={{width:'3.5rem'}} className='Form_page'
               value={term}
               onChange={(e) => {
-                setTerm(e.target.value);
+                setTerm(parseInt(e.target.value));
               }}
               onKeyDown ={
                 (e)=>{

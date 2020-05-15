@@ -1,9 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Media from 'react-bootstrap/Media';
+import LinesEllipsis from 'react-lines-ellipsis';
+import ErrorMessage from '../components/ErrorMessage';
 
 function NewsList (){
-  const news = useSelector(state => state.news);  
+  const news = useSelector(state => state.news);
+  const error = useSelector(state => state.error);
+
+  if(error){
+    return <ErrorMessage />
+  } 
   return (
     <div>
       {
@@ -18,9 +25,23 @@ function NewsList (){
                 alt={news.headline}
               />
               <Media.Body>
-                <h5>{news.headline/*말줄임표 달기 */}</h5>
+                <h5>
+                  <LinesEllipsis
+                    text={news.headline}
+                    maxLine='3'
+                    ellipsis='...'
+                    trimRight
+                    basedOn='letters'
+                  />
+                </h5>
                 <p>
-                  {news.summary/*말줄임표 달기 */}
+                  <LinesEllipsis
+                    text={news.summary}
+                    maxLine='3'
+                    ellipsis='...'
+                    trimRight
+                    basedOn='letters'
+                  />
                 </p>
               </Media.Body>
             </Media>

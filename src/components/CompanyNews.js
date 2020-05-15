@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Media from 'react-bootstrap/Media';
+import LinesEllipsis from 'react-lines-ellipsis';
 
 export default function CompanyNews(){
   const news = useSelector(state => state.selected_news);
@@ -30,9 +31,23 @@ export default function CompanyNews(){
               alt={news.headline}
             />
             <Media.Body>
-              <h5>{news.headline/*말줄임표 달기 */}</h5>
+              <h5>
+                <LinesEllipsis
+                    text={news.headline}
+                    maxLine='3'
+                    ellipsis='...'
+                    trimRight
+                    basedOn='letters'
+                  />
+              </h5>
               <p>
-                {news.summary/*말줄임표 달기 */}
+                <LinesEllipsis
+                  text={news.summary}
+                  maxLine='3'
+                  ellipsis='...'
+                  trimRight
+                  basedOn='letters'
+                />
               </p>
             </Media.Body>
           </Media>

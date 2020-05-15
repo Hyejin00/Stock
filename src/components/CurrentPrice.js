@@ -9,10 +9,12 @@ export default function CurrentPrice({price, symbol}){
   });
 
   socket.addEventListener('message', function (event) {
-    console.log(event.data);
+    const data = JSON.parse(event.data);
+    console.log(data);
     
-    if(event.data.type === 'trade'){
-      setCurrentPrice(event.data.data[0].p);
+    if(data.type === 'trade'){
+      console.log('trade');
+      setCurrentPrice(data.data[0].p);
     }
   });
   return(

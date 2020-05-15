@@ -8,6 +8,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { fetchCompanyInfo } from '../actions';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function StockQuote(props){
   const dispatch = useDispatch();
@@ -16,13 +17,16 @@ export default function StockQuote(props){
   const params = new URLSearchParams(search);
   const symbol= params.get('symbol');
   const company= params.get('desc');
+  const error = useSelector(state => state.error);
   
   useEffect(()=>{
     dispatch(fetchCompanyInfo(symbol));
     // eslint-disable-next-line
   },[]);
   
-
+  if(error){
+    return <ErrorMessage />
+  }
   if(loading){
     return (
       <Spinner animation="border" role="status">
