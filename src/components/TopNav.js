@@ -22,7 +22,8 @@ export default function TopNav(){
           <Nav.Link href="#news">News</Nav.Link>
         </Nav>
         <Form inline>
-          <FormControl type="text" placeholder="write Symbol.." className="mr-sm-2" onChange = {
+          <FormControl type="text" placeholder="write Symbol.." className="mr-sm-2"
+          onChange = {
             (e)=>{
               setSymbol(e.target.value);
             }

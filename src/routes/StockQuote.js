@@ -19,7 +19,9 @@ export default function StockQuote(props){
   
   useEffect(()=>{
     dispatch(fetchCompanyInfo(symbol));
+    // eslint-disable-next-line
   },[]);
+  
 
   if(loading){
     return (

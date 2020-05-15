@@ -1,17 +1,27 @@
-import React from 'react';
+import React,{useState} from 'react';
 import ArticleTitle from '../components/ArticleTitle';
 import ArticleSubTitle from '../components/ArticleSubTitle';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useSelector } from 'react-redux';
-import Spinner from 'react-bootstrap/Spinner';
 import {Link} from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import FormControl from 'react-bootstrap/FormControl';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function StockMarket({match}){
   const loading = useSelector(state => state.loading);
   const idx = match.params.exchange;
   const exchanges = useSelector(state => state.exchanges[idx]);
+  const [current_page, setCurrentPage] = useState(1);
+  const [offset, setOffset] = useState(10);
+  const [term, setTerm] = useState(1);
+  const startPage = (current_page-1)*offset;
   // const error = useSelector(state => state.error);
-  
+
   if(loading){
     return (
       <Spinner animation="border" role="status">
@@ -25,9 +35,9 @@ export default function StockMarket({match}){
       <ArticleSubTitle title='Company list'/>
       <ListGroup>
         {
-          exchanges.companies.map((company,index)=>{
+          exchanges.companies.slice(startPage,startPage+offset).map((company,index)=>{
             if(company.description === 'N/A'){
-              return
+              return null;
             }
             return (
               <Link
@@ -44,8 +54,66 @@ export default function StockMarket({match}){
           })
         }
       </ListGroup>
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col xs lg="2" className='flex-grow-0'>
+            <Button variant="outline-primary"
+            onClick={
+              ()=>{
+                setCurrentPage((cur)=>{
+                  if(cur>1){
+                    setTerm(cur-1);
+                    return cur-1;
+                  }else{
+                    setTerm(1);
+                    return 1;
+                  }
+                });
+                }
+              }> pre </Button>
+          </Col>
+          <Col md="auto">
+            <InputGroup>
+              <FormControl aria-label="currentpage" style={{width:'3.5rem'}} className='Form_page'
+              value={term}
+              onChange={(e) => {
+                setTerm(e.target.value);
+              }}
+              onKeyDown ={
+                (e)=>{
+                  if(e.keyCode ===13){
+                    e.preventDefault();
+                    setCurrentPage(term);
+                  }
+                }
+              }
+              />
+              <InputGroup.Append>
+                <InputGroup.Text>{Math.ceil(exchanges.companies.length/offset)}</InputGroup.Text>
+              </InputGroup.Append>
+            </InputGroup>
+          </Col>
+          <Col xs lg="2" className='flex-grow-0'>
+            <Button variant="outline-primary" 
+             onClick={
+              ()=>{
+                const max_page = Math.ceil(exchanges.companies.length/offset);
+                setCurrentPage((cur)=>{
+                  if(cur<max_page){
+                    setTerm(cur+1);
+                    return cur+1
+                  }else{
+                    setTerm(max_page);
+                    return max_page
+                  }
+                });
+                }
+              }
+            > next </Button>
+          </Col>
+        </Row>
+      </Container>
     </div>
-    //pagenation 생각하기
   );
   
 }

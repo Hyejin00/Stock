@@ -15,6 +15,8 @@ import { fetchInitData } from './actions/index';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 store.dispatch(fetchInitData());
+console.log('dispatch init data');
+
 
 function App() {
   return (
