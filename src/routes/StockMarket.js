@@ -81,13 +81,13 @@ export default function StockMarket({match}){
               <FormControl aria-label="currentpage" style={{width:'3.5rem'}} className='Form_page'
               value={term}
               onChange={(e) => {
-                setTerm(parseInt(e.target.value));
+                setTerm(e.target.value);
               }}
               onKeyDown ={
                 (e)=>{
                   if(e.keyCode ===13){
                     e.preventDefault();
-                    setCurrentPage(term);
+                    setCurrentPage(parseInt(term));
                   }
                 }
               }

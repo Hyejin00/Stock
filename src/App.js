@@ -27,7 +27,6 @@ function App() {
           <Route path = '/markets/:exchange' component={StockMarket}/>
           <Route path='/' exact={true} component={Home}/>
           <Route path = '/companies' component={StockQuote}/>
-          <Route path = '/companies/A' component={StockQuote}/>
           <Route path = '/news' component={NewsList}/>
         </Container>
       </HashRouter>
