@@ -60,24 +60,25 @@ export default function StockMarket({match}){
       </ListGroup>
       <Container>
         <Row className="justify-content-md-center">
-          <Col xs lg="2" className='flex-grow-0'>
-            <Button variant="outline-primary"
-            onClick={
-              ()=>{
-                setCurrentPage((cur)=>{
-                  if(cur>1){
-                    setTerm(cur-1);
-                    return cur-1;
-                  }else{
-                    setTerm(1);
-                    return 1;
-                  }
-                });
-                }
-              }> pre </Button>
-          </Col>
           <Col md="auto">
             <InputGroup>
+              <InputGroup.Prepend>
+                <Button 
+                  variant="outline-primary"
+                  onClick={
+                    ()=>{
+                      setCurrentPage((cur)=>{
+                        if(cur>1){
+                          setTerm(cur-1);
+                          return cur-1;
+                        }else{
+                          setTerm(1);
+                          return 1;
+                        }
+                      });
+                      }
+                }> pre </Button>
+              </InputGroup.Prepend>
               <FormControl aria-label="currentpage" style={{width:'3.5rem'}} className='Form_page'
               value={term}
               onChange={(e) => {
@@ -94,26 +95,24 @@ export default function StockMarket({match}){
               />
               <InputGroup.Append>
                 <InputGroup.Text>{Math.ceil(exchanges.companies.length/offset)}</InputGroup.Text>
+                <Button variant="outline-primary" 
+                  onClick={
+                    ()=>{
+                      const max_page = Math.ceil(exchanges.companies.length/offset);
+                      setCurrentPage((cur)=>{
+                        if(cur<max_page){
+                          setTerm(cur+1);
+                          return cur+1
+                        }else{
+                          setTerm(max_page);
+                          return max_page
+                        }
+                      });
+                      }
+                    }
+                  > next </Button>
               </InputGroup.Append>
             </InputGroup>
-          </Col>
-          <Col xs lg="2" className='flex-grow-0'>
-            <Button variant="outline-primary" 
-             onClick={
-              ()=>{
-                const max_page = Math.ceil(exchanges.companies.length/offset);
-                setCurrentPage((cur)=>{
-                  if(cur<max_page){
-                    setTerm(cur+1);
-                    return cur+1
-                  }else{
-                    setTerm(max_page);
-                    return max_page
-                  }
-                });
-                }
-              }
-            > next </Button>
           </Col>
         </Row>
       </Container>
